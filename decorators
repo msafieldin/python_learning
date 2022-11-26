@@ -1,0 +1,64 @@
+### studying decorators 
+
+## best thing about decorator example 
+
+def a_decorator_passing_arguments(function_to_decorate):
+    def a_wrapper_accepting_arguments(arg1, arg2):
+        print("I got args! Look :", arg1, arg2)
+        function_to_decorate(arg1, arg2)
+    return a_wrapper_accepting_arguments
+
+@a_decorator_passing_arguments
+def print_full_name(first_name, last_name):
+    print("My name is", first_name, last_name)
+
+print_full_name("mohamed","safieldin")
+
+
+def our_decorator(func):
+    def inner(x):
+        print(f"before calling {func.__name__}")
+        y = func(x)
+        
+        if isinstance(y,int ):
+            print(f"{y} is integer")
+            
+        elif isinstance(y, str):
+            print(f"{y} is string")
+            
+        elif isinstance(y, float):
+            print(f"{y} is float")
+            
+        elif y is None:
+            print("None paramter")
+             
+        print("After calling " + func.__name__)
+
+    return inner
+
+def foo(x):
+    print(f"Hi guys we're inside foo with parameter {x}")
+    
+    foo(5)
+    
+@our_decorator
+def foo(x):
+    print(f"Hi guys we're inside foo with parameter {x}")
+    
+foo("mohamed")
+
+def smart_divide_decorator(func):
+    def inner(*args):
+        print(f"args {args}")
+        if 0 in args:
+            print("avoiding divide as there's Zero in the parameters")
+            return
+        return func(*args)
+    return inner
+
+@smart_divide_decorator
+def divide(a,b):
+    return a/b
+    
+    
+divide(5,0)
