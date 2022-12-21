@@ -1,0 +1,53 @@
+# A manufacturer says the Z-Phone smart phone has a mean consumer life of 42 months with a standard deviation of 8 months.
+# Assuming a normal distribution, what is the probability a given random Z-Phone will last between 20 and 30 months?
+from scipy.stats import norm
+from math import sqrt
+mean = 42
+std = 8
+a = norm.cdf(30, mean, std) - norm.cdf(20, mean, std)
+print(a)
+
+
+
+
+
+# I am skeptical that my 3D printer filament is not 1.75 mm in average diameter as advertised.
+# I sampled 34 measurements with my tool. The sample mean is 1.715588 and the sample standard deviation is 0.029252.
+# What is the 99% confidence interval for the mean of my entire spool of filament?
+
+sample_mean = 1.715588
+sample_standard_deviation = 0.029252
+
+
+def crtical_z_score_value(p):
+    norm_dist = norm(loc=0.0, scale=1.0)
+    import pdb;pdb.set_trace()
+    left_tail = (1.0 - p) / 2.0
+    right_end = 1 - (1.0 - p) / 2.0
+    return norm_dist.ppf(left_tail) , norm_dist.ppf(right_end)
+
+
+def confident_interval(p, sample_mean, sample_std, n):
+    lower_limit, higher_limit = crtical_z_score_value(p)
+    import pdb;pdb.set_trace()
+    lower = lower_limit * (sample_std/ sqrt(n))
+    higher = higher_limit * (sample_std/sqrt(n))
+    return sample_mean + lower , sample_mean+higher
+
+print(confident_interval(.99, 1.715588, 0.029252, 34))
+
+
+# Your marketing department has started a new advertising campaign and wants to know
+# if it affected sales, which in the past averaged $10,345 a day with a standard deviation of $552.
+# The new advertising campaign ran for 45 days and averaged $11,641 in sales.
+# Did the campaign affect sales? Why or why not? (Use a two-tailed test for more reliable significance.)
+
+sales_avg = 10345
+stand_dev = 552
+average_sales_for_45_day = 11641
+
+x1= norm.ppf(2.5/100, 10345, 552)
+x2 = norm.ppf(97.5/100, 10345, 552)
+print(x1, x2)   # 9263.09988053389 11426.90011946611  
+# solution explaination since the last good range before the campaign was from 9263 to 11426 so the new average is 11641 which is very good 
+
